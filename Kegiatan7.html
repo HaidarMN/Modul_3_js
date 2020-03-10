@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <!-- Load Bootstrap -->
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <!-- Load Java Script -->
+  <script src="bootstrap/js/jquery.min.js"></script>
+  <script src="bootstrap/js/popper.min.js"></script>
+  <script src="bootstrap/js/bootstrap.js"></script>
+  <script type="text/javascript">
+    function Play() {
+      document.getElementById('audioPlayer').play();
+    }
+
+    function Pause() {
+      document.getElementById('audioPlayer').pause();
+    }
+
+    function Stop() {
+      document.getElementById('audioPlayer').pause();
+      var audio = document.getElementById('audioPlayer');
+      audio.currentTime = 0;
+    }
+
+    function audioPlayer() {
+      var currentSong = 0;
+      $("#audioPlayer")[0].src = $("#playlist li a")[0];
+      $("#audioPlayer")[0].play();
+      $("#playlist li a").click(function(e) {
+        e.preventDefault();
+        $("#audioPlayer")[0].src = this;
+        $("#audioPlayer")[0].play();
+        $("#playlist li").removeClass("current-song");
+        currentSong = $(this).parent().index();
+        $(this).parent().addClass("current-song");
+      });
+
+      $("#audioPlayer")[0].addEventListener("ended", function() {
+        currentSong++;
+        if (currentSong == $("#playlist li a").length)
+          currentSong = 0;
+        $("#playlist li").removeClass("current-song");
+        $("#playlist li:eq(" + currentSong + ")").addClass("current-song");
+        $("#audioPlayer")[0].src = $("#playlist li a")[currentSong].href;
+        $("#audioPlayer")[0].play();
+      });
+    }
+  </script>
+  <style media="screen">
+    .gedi {
+      margin: 0 auto;
+    }
+
+    .center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 75%;
+    }
+
+    .padding {
+      margin-left: 5px;
+    }
+  </style>
+  <title>Pemutar Lagu</title>
+</head>
+
+<body>
+  <br>
+  <div class="container">
+    <div class="card col-sm-6">
+      <div class="card-header bg-info text-white text-center">
+        <h2>Play List with Javascript</h2>
+      </div>
+      <h2>Foto Album</h2>
+      <div class="card-body col-sm-12">
+        <img src="BA.jpg" alt="" class="img-fluid center" onclick="n();">
+      </div>
+      <!-- <audio controls autoplay style="" id="music"> -->
+      <!-- <source src="zenzen.mp3" type="audio/mpeg" class="gedi"> -->
+      <!-- <source src="Jogja.mp3" type="audio/mpeg"> -->
+      <!-- <source src="yanghilangberganti.mp3" type="audio/mpeg"> -->
+      <!-- Your browser does not support the audio element. -->
+      <!-- </audio> -->
+      <div class="row col-12 ">
+        <button type="button" class="btn btn-warning col padding" id="pause" onclick="Pause();">Pause</button>
+        <button type="button" class="btn btn-danger col padding" id="play" onclick="Play();">Play</button>
+        <button type="button" class="btn btn-success col padding" id="stop" onclick="Stop()">Stop</button>
+      </div>
+      <ul id="playlist" class="list-group">
+        <li class="current-song list-group-item"><a href="Grillabeast-Kotonaru.mp3">Grillabeast - Kotonaru</a></li>
+        <li class="list-group-item"><a href="Grillabeast-Senso.mp3">Grillabeast - Senso</a></li>
+        <li class="list-group-item"><a href="Grillabeast-Shakuhachi.mp3">Grillabeast - Shakuhachi</a></li>
+      </ul>
+      <script src="https://code.jquery.com/jquery-2.2.0.js"></script>
+      <script src="audioPlayer.js"></script>
+      <script>
+        // loads the audio player
+        audioPlayer();
+      </script>
+    </div>
+  </div>
+</body>
+
+</html>
